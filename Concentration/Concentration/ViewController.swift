@@ -18,12 +18,21 @@ class ViewController: UIViewController {
 //        super.didReceiveMemoryWarning()
 //        // Dispose of any resources that can be recreated.
 //    }
-    var flipCount: Int = 0
+    var flipCount: Int = 0 {
+        didSet {
+            flipCountLabel.text = "flips:\(flipCount)"
+        }
+    }
+    
+    
+    @IBOutlet weak var flipCountLabel: UILabel!
     
     @IBAction func touchCard(_ sender: UIButton) {
+        flipCount += 1
         flipCard(withEmoji: "🐶", on: sender)
     }
     @IBAction func touchSecondCard(_ sender: UIButton) {
+        flipCount += 1
         flipCard(withEmoji: "🐰", on: sender)
     }
     
