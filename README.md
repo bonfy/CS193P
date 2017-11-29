@@ -12,3 +12,4 @@ CS193P Project codes
 * 如果是StoryBoard关联的字段要改名，command+点击 然后选 rename,这样关联才不会断
 * 任何的 Instance value 必须初始化 （！可以不用）
 * Instance value 可以设置 didSet 方法，用于这个value change 自动更新页面
+* 如果一个函数的返回值是 Int? (optional), 可以用 value！来解包，但是这个nil!是会crash的，所以安全的解包方法 是  if let xx = funcreturnInt? {} 这样就比较安全
