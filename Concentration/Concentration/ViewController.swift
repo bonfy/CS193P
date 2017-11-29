@@ -24,22 +24,26 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBOutlet var cardButtons: [UIButton]!
     
     @IBOutlet weak var flipCountLabel: UILabel!
     
+    var emojiChoices: Array<String> = ["🐶","🐰","🐶","🐰"]
+    
     @IBAction func touchCard(_ sender: UIButton) {
         flipCount += 1
-        flipCard(withEmoji: "🐶", on: sender)
-    }
-    @IBAction func touchSecondCard(_ sender: UIButton) {
-        flipCount += 1
-        flipCard(withEmoji: "🐰", on: sender)
+        if let cardNumber = cardButtons.index(of: sender) {
+            // print("Card Number: \(cardNumber)")
+            flipCard(withEmoji: emojiChoices[cardNumber], on: sender)
+        } else {
+            print("Card choose not in the cardButtons Array")
+        }
     }
     
     func flipCard(withEmoji emoji:String, on button:UIButton) {
         if button.currentTitle == emoji {
             button.setTitle("", for: UIControlState.normal)
-            button.backgroundColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
+            button.backgroundColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
         }
         else {
             button.setTitle(emoji, for: UIControlState.normal)
