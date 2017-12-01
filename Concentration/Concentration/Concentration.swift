@@ -8,25 +8,47 @@
 
 import Foundation
 
-class Concentraction
-{
+class Concentration {
+    
     var cards = [Card]()
+    var indexOfOneAndOnlyFaceUpCard: Int?
     
     func chooseCard(at index: Int) {
-        cards[index].isFaceUp = !cards[index].isFaceUp
+        if !cards[index].isMatched {
+            if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
+                // check if cards match
+                if cards[matchIndex].identifier == cards[index].identifier {
+                    cards[matchIndex].isMatched = true
+                    cards[index].isMatched = true
+                }
+                cards[index].isFaceUp = true
+                indexOfOneAndOnlyFaceUpCard = nil    // not one and only ...
+            } else {
+                // either no card or two cards face up
+                for flipdownIndex in cards.indices {
+                    cards[flipdownIndex].isFaceUp = false
+                }
+                cards[index].isFaceUp = true
+                indexOfOneAndOnlyFaceUpCard = index
+            }
+            
+        }
     }
     
     init(numberOfPairsOfCards: Int) {
+        var unShuffeldCards: [Card] = []
+        
         for _ in 1...numberOfPairsOfCards {
             let card = Card()
-//            let matchingCard = card // 因为这个是个 copy
-//            cards.append(card)
-//            cards.append(card)     // 这个也会copy
-            
-            cards += [card, card]    // array 也是copy
+            unShuffeldCards += [card, card]
         }
+        //    TODO: Shuffle the cards
         
-        // TODO: Shuffle the cards
-        
+        while !unShuffeldCards.isEmpty {
+            let randomIndex = Int(arc4random_uniform(UInt32(unShuffeldCards.count)))
+            let card = unShuffeldCards.remove(at: randomIndex)
+            cards.append(card)
+        }
     }
+    
 }

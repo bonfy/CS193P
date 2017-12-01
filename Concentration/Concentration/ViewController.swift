@@ -19,7 +19,7 @@ class ViewController: UIViewController {
 //        // Dispose of any resources that can be recreated.
 //    }
     
-    lazy var game: Concentraction = Concentraction(numberOfPairsOfCards: (cardButtons.count+1) / 2)
+    lazy var game: Concentration = Concentration(numberOfPairsOfCards: (cardButtons.count+1) / 2)
     
     var flipCount: Int = 0 {
         didSet {
