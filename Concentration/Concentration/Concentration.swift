@@ -14,6 +14,10 @@ class Concentration {
     var indexOfOneAndOnlyFaceUpCard: Int?
     
     func chooseCard(at index: Int) {
+        
+        // assert 是方便调试
+        assert(cards.indices.contains(index), "Concentration.chooseCard(at: \(index)) : Choosen index out of range")
+        
         if !cards[index].isMatched {
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
                 // check if cards match
@@ -36,6 +40,9 @@ class Concentration {
     }
     
     init(numberOfPairsOfCards: Int) {
+        
+        assert(numberOfPairsOfCards > 0, "Concentration.init(\(numberOfPairsOfCards)) : You must have at least one pair of cards")
+        
         var unShuffeldCards: [Card] = []
         
         for _ in 1...numberOfPairsOfCards {

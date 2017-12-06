@@ -19,9 +19,13 @@ class ViewController: UIViewController {
 //        // Dispose of any resources that can be recreated.
 //    }
     
-    lazy var game: Concentration = Concentration(numberOfPairsOfCards: (cardButtons.count+1) / 2)
+    private lazy var game: Concentration = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
     
-    var flipCount: Int = 0 {
+    var numberOfPairsOfCards: Int {
+        return (cardButtons.count+1) / 2
+    }
+    
+    private(set) var flipCount: Int = 0 {
         didSet {
              flipCountLabel.text = "flips:\(flipCount)"
         }
@@ -67,11 +71,23 @@ class ViewController: UIViewController {
 //        }
         
         if emoji[card.identifier] == nil, emojiChoices.count > 0 {
-            let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
-            emoji[card.identifier] = emojiChoices.remove(at: randomIndex)
+//            let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
+            emoji[card.identifier] = emojiChoices.remove(at: emojiChoices.count.arc4random)
         }
         
         return emoji[card.identifier] ?? "?"
     }
 }
 
+
+extension Int {
+    var arc4random: Int {
+        if self > 0 {
+            return Int(arc4random_uniform(UInt32(self)))
+        } else if self < 0 {
+            return -Int(arc4random_uniform(UInt32(self)))
+        } else {
+            return 0
+        }
+    }
+}
