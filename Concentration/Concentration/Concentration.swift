@@ -8,12 +8,21 @@
 
 import Foundation
 
-class Concentration {
+struct Concentration {
     
-    var cards = [Card]()
-    var indexOfOneAndOnlyFaceUpCard: Int?
+    private(set) var cards = [Card]()
+    private var indexOfOneAndOnlyFaceUpCard: Int? {
+        get {
+            return cards.indices.filter{ cards[$0].isFaceUp }.oneAndOnly
+        }
+        set {
+            for index in cards.indices {
+                cards[index].isFaceUp = (index == newValue)
+            }
+        }
+    }
     
-    func chooseCard(at index: Int) {
+    mutating func chooseCard(at index: Int) {
         
         // assert 是方便调试
         assert(cards.indices.contains(index), "Concentration.chooseCard(at: \(index)) : Choosen index out of range")
@@ -21,21 +30,14 @@ class Concentration {
         if !cards[index].isMatched {
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
                 // check if cards match
-                if cards[matchIndex].identifier == cards[index].identifier {
+                if cards[matchIndex] == cards[index] {
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
                 }
                 cards[index].isFaceUp = true
-                indexOfOneAndOnlyFaceUpCard = nil    // not one and only ...
             } else {
-                // either no card or two cards face up
-                for flipdownIndex in cards.indices {
-                    cards[flipdownIndex].isFaceUp = false
-                }
-                cards[index].isFaceUp = true
                 indexOfOneAndOnlyFaceUpCard = index
             }
-            
         }
     }
     
@@ -59,3 +61,10 @@ class Concentration {
     }
     
 }
+
+extension Collection {
+    var oneAndOnly: Element? {
+        return count == 1 ? first : nil
+    }
+}
+

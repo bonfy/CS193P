@@ -8,13 +8,19 @@
 
 import Foundation
 
-struct Card
+struct Card: Hashable
 {
+    var hashValue: Int { return identifier }
+    
+    static func ==(lhs: Card, rhs: Card) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+    
     // we are the model
     // no emoji here we don't have ui related things
     var isFaceUp = false
     var isMatched = false
-    var identifier: Int
+    private var identifier: Int
     
 //    也可以
 //    init(identifier i: int) {
